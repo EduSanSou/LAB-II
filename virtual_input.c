@@ -2,11 +2,11 @@
 #define F_CPU 16000000UL // CPU frequency?
 #include <avr/io.h> // Header-file that includes the apropriate IO definitions for the device      
 #include <util/delay.h> // Header-file for busy-wait delay loops
+#define power_pin PD2
+#define control_pin PD3
 
 /** Inicialização das variáveis **/
 
-unsigned char power_pin = 2;
-unsigned char control_pin = 3;
 // variável que indica se a FPGA está ligada/desligada.
 int power_state = 0;
 // variável para receber dados vindo da comunicação serial com a GUI
@@ -25,12 +25,16 @@ unsigned long input_millis;     // ts for last input received
 unsigned long power_on_millis;  // ts for how long the board is on
 unsigned long power_off_millis; // ts for last power toggle
 
-int main() {
+void setup(void){
   DDRD = 0b11111100; //configura os pinos 2 a 7 como saída
   DDRB = 0b00000011; //configura os pinos 8 a 9 como saída
+  PORTD = 0b00001111; //desativa os pinos 4 a 7 (zera a tensao)
+  PORTB = 0b11111100; //desativa os pinos 8 a 9 (zera a tensao)
+}
+
+int main() {
+  
   while(1){
-    PORTD = 0b00001111; //desativa os pinos 4 a 7 (zera a tensao)
-    PORTB = 0b11111100; //desativa os pinos 8 a 9 (zera a tensao)
     //
     // Loop principal para comunicação e controle da placa DE2-115
     //
