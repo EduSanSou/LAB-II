@@ -29,8 +29,8 @@ int main() {
   DDRD = 0b11111100; //configura os pinos 2 a 7 como saída
   DDRB = 0b00000011; //configura os pinos 8 a 9 como saída
   while(1){
-    PORTD = 0b11110000; //desativa os pinos 4 a 7 (zera a tensao)
-    PORTB = 0b00000011; //desativa os pinos 8 a 9 (zera a tensao)
+    PORTD = 0b00001111; //desativa os pinos 4 a 7 (zera a tensao)
+    PORTB = 0b11111100; //desativa os pinos 8 a 9 (zera a tensao)
     //
     // Loop principal para comunicação e controle da placa DE2-115
     //
