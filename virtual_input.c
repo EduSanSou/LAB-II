@@ -19,7 +19,7 @@ bool is_connected = false;
 // variável para bloquear o botão de ligar/desligar a FPGA.
 bool is_power_blocked = false;
 
-unsigned long beam_millis = millis(); // timestamp for last beam sent (buscar forma para C)
+unsigned long beam_millis = millis(); // timestamp for last beam sent (uma alternativa é usar a library time.h e a funcao clock())
 // unsigned long sent_millis;            // ts for output clock state change
 unsigned long input_millis;     // ts for last input received
 unsigned long power_on_millis;  // ts for how long the board is on
