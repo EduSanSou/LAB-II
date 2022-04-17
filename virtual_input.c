@@ -1,10 +1,11 @@
 #include <stdbool.h> // Header-file for boolean data-type.
-#define F_CPU 16000000UL // CPU frequency?
+#include <time.h>
 #include <avr/io.h> // Header-file that includes the apropriate IO definitions for the device      
 #include <util/delay.h> // Header-file for busy-wait delay loops
+
 #define power_pin PD2
 #define control_pin PD3
-
+#define F_CPU 16000000UL // CPU frequency?
 /** Inicialização das variáveis **/
 
 // variável que indica se a FPGA está ligada/desligada.
@@ -19,7 +20,7 @@ bool is_connected = false;
 // variável para bloquear o botão de ligar/desligar a FPGA.
 bool is_power_blocked = false;
 
-unsigned long beam_millis = millis(); // timestamp for last beam sent (uma alternativa é usar a library time.h e a funcao clock())
+unsigned long beam_millis = clock(); // timestamp for last beam sent (testar função clock())
 // unsigned long sent_millis;            // ts for output clock state change
 unsigned long input_millis;     // ts for last input received
 unsigned long power_on_millis;  // ts for how long the board is on
