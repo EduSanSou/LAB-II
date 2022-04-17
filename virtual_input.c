@@ -34,6 +34,7 @@ void setup(void){
 }
 
 int main() {
+  setup();
   
   while(1){
     //
