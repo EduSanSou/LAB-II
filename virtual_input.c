@@ -100,6 +100,12 @@ int main() {
     received = UART_Receive();
 
     // Confirm connection
+    if (!is_connected) {
+      if (received == 41) {
+       UART_Transmit(42);
+        is_connected = true;
+     }
+   }
     
     // Disconnect and power off fpga
     else if (received == 88) {
