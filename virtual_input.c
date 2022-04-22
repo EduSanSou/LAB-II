@@ -134,6 +134,7 @@ int main() {
       }
     // Toggle fpga power
     
-  }
+    }
+  }  
   return 0;
 }
