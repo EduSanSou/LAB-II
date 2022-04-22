@@ -85,7 +85,7 @@ int main() {
         if (is_connected)
           UART_Transmit(50);
         else
-          Serial.write(40);
+          UART_Transmit(40);
     }
       
     // Unblock fpga power in 10 sec after last toggle
