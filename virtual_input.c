@@ -3,7 +3,7 @@
 #include <avr/io.h> // Header-file that includes the apropriate IO definitions for the device      
 #include <util/delay.h> // Header-file for busy-wait delay loops
 
-#define F_CPU 16000000UL // Frequência do oscilador do arduino 16 MHz
+#define FOSC 16000000UL // Frequência do oscilador do arduino 16 MHz
 #define BAUD 9600
 #define MYUBRR FOSC/16/BAUD-1
 #define power_pin PD2
