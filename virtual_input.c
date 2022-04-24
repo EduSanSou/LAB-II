@@ -119,6 +119,7 @@ int main() {
   
   while(1){
     /*verifica se há dados para leitura na porta serial*/
+    cli();
     while ((UCSR0A & (1<<RXC0)) == 0) {
       if ((TIMER_return() - beam_millis) > 1000) {
         beam_millis = TIMER_return();
@@ -126,6 +127,7 @@ int main() {
         UART_Transmit(50);
         else
         UART_Transmit(40);
+        }
       }
       
       // Unblock fpga power in 10 sec after last toggle
@@ -173,8 +175,8 @@ int main() {
         clr_bit(PORTD,PD3);
       }
       // Toggle fpga power
-      
+      sei(); 
     }
-  }
-  return 0;
+  return 0;  
 }
+  
