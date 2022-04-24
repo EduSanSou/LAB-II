@@ -152,7 +152,6 @@ int main() {
       clr_bit(PORTD, POWER_PIN);
       power_off_millis = TIMER_return();
     }
-  }
 
   input_millis = TIMER_return();
   received = UART_Receive();
