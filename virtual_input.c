@@ -61,15 +61,16 @@ unsigned char UART_Receive(void)
 
 void TIMER_init(void){
   
-  TCCR2A = 0x00;
-  TCCR2B |= (1<<CS21);
-  TCNT2 = 56;
-  TIMSK2 |= (1<<TOIE2);
+  TCCR2A = 0x00;            // Modo de operação normal
+  TCCR2B |= (1<<CS21);      // Set Preescaler de 8 bits
+  TCNT2 = 56;               // Inicializa o contador do Timer com 56 para que conte apenas 200 vezes
+  TIMSK2 |= (1<<TOIE2);     // Ativa a interrupção por overflow
   
-  count_millis = 0;
+  count_millis = 0;         // inicializa contador
   
 }
 
+/* Chamada de Interurpçação para contabilizar os 0,1ms a cada estouro*/
 ISR (TIMER2_OVF_vect)
 {
   TCNT2   =    56;
@@ -120,7 +121,7 @@ int main() {
     /*verifica se há dados para leitura na porta serial*/
     cli();
     while ((UCSR0A & (1<<RXC0)) == 0) {
-      if ((TIMER_return() - beam_millis) > 1000) {
+      if ((TIMER_return() - beam_millis) > 10000) {
         beam_millis = TIMER_return();
         if (is_connected)
         UART_Transmit(50);
@@ -134,7 +135,7 @@ int main() {
     is_power_blocked = false;
 
     /** Desconecta e desliga a FPGA depois de 10 min ociosa **/
-    if (is_connected && (TIMER_return() - input_millis) > 595000) {
+    if (is_connected && (TIMER_return() - input_millis) > 5950000) {
       is_connected = false;
       if (power_state) {
         is_power_blocked = true;
@@ -145,7 +146,7 @@ int main() {
     }
 
     /** Desliga a FPGA depois de 10 min de uso **/
-    if (power_state && (TIMER_return() - power_on_millis) > 600000) {
+    if (power_state && (TIMER_return() - power_on_millis) > 6000000) {
       is_power_blocked = true;
       power_state = 0;
       //PORTD |= (power_state << POWER_PIN);
