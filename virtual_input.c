@@ -90,8 +90,8 @@ unsigned long TIMER_return(void){
 /************** Configurações iniciais ***************/
 
 void SETUP_init(void){
-  DDRD = 0b11111100;  //configura os pinos 2 a 7 como saída
-  DDRB = 0b00000011;  //configura os pinos 8 a 9 como saída
+  DDRD = 0b11111100;  //configura os pinos 2 a 7 como saída e os outros como entrada
+  DDRB = 0b00000011;  //configura os pinos 8 a 9 como saída e os outros como entrada
   PORTD = 0b00001111; //desativa os pinos 4 a 7
   PORTB = 0b11111100; //desativa os pinos 8 a 9
   
@@ -105,15 +105,15 @@ int main() {
   cli();
   SETUP_init();
   
-  unsigned char power_state = 0;            // variável que indica se a FPGA está ligada/desligada.
-  unsigned char received;               // variável para receber dados vindo da comunicação serial com a GUI
-  unsigned char bitread;            // variável auxiliar para ler bit a bit
-  bool is_connected = false;          // variável para verificar a conexão da FPGA com a GUI
-  bool is_power_blocked = false;        // variável para bloquear o botão de ligar/desligar a FPGA.
+  unsigned char power_state = 0;              // variável que indica se a FPGA está ligada/desligada.
+  unsigned char received;                     // variável para receber dados vindo da comunicação serial com a GUI
+  unsigned char bitread;                      // variável auxiliar para ler bit a bit
+  bool is_connected = false;                  // variável para verificar a conexão da FPGA com a GUI
+  bool is_power_blocked = false;              // variável para bloquear o botão de ligar/desligar a FPGA.
   unsigned long beam_millis = TIMER_return(); // timestamp for last beam sent
-  unsigned long input_millis;         // ts for last input received
-  unsigned long power_on_millis;        // ts for how long the board is on
-  unsigned long power_off_millis;       // ts for last power toggle
+  unsigned long input_millis = 0;             // ts for last input received
+  unsigned long power_on_millis = 0;          // ts for how long the board is on
+  unsigned long power_off_millis = 0;         // ts for last power toggle
   
   /* Loop principal para comunicação e controle da placa DE2-115 */
   
@@ -178,15 +178,49 @@ int main() {
 
   /* Lê o byte recebido como bits e set nos pinos de saída */ 
   else if (received >= 0 && received < 22) {
-    for (int j = 0; j<6; j++) {
-      bitread = bitRead(received, j);
-      digitalWrite(j+4, bitread);
-    }
-    _delay_ms(1000);
-    set_bit(PORTD,CONTROL_PIN);
-    _delay_ms(1000);
-    clr_bit(PORTD,CONTROL_PIN);
-  }
+			for( int j = 0; j < 6; j++ ) {
+				bitread = (( received >> j ) & 1 ? 1 : 0);
+				
+        switch(j)
+				{
+					case 0:
+					if (bitread)
+						set_bit(PORTD, PD4);
+					else
+						clr_bit(PORTD, PD4);
+					case 1:
+					if (bitread)
+						set_bit(PORTD, PD5);
+					else
+						clr_bit(PORTD, PD5);
+					case 2:
+					if (bitread)
+						set_bit(PORTD, PD6);
+					else
+						clr_bit(PORTD, PD6);
+					case 3:
+					if (bitread)
+						set_bit(PORTD, PD7);
+					else
+						clr_bit(PORTD, PD7);
+					case 4:
+					if (bitread)
+						set_bit(PORTB, PB0);
+					else
+						clr_bit(PORTB, PB0);
+					case 5:
+					if (bitread)
+						set_bit(PORTB, PB1);
+					else
+						clr_bit(PORTB, PB1);
+				}
+
+			}
+			_delay_ms(1000);
+			set_bit(PORTD,CONTROL_PIN);
+			_delay_ms(1000);
+			clr_bit(PORTD,CONTROL_PIN);
+		}
 
   /* Reinicia a FPGA */ 
   else if (received == 127){
