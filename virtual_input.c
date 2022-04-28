@@ -164,7 +164,51 @@ int main() {
       is_connected = true;
     }
   }
-  
+		
+	/* Lê o byte recebido como bits e set nos pinos de saída */ 
+  else if (received >= 0 && received < 22) {
+    for (int j = 0; j < 6; j++ ) {
+      bitread = (( received >> j ) & 1 ? 1 : 0);
+        switch(j)
+        {
+          case 0:
+            if (bitread)
+              set_bit(PORTD, PD4);
+            else
+              clr_bit(PORTD, PD4);
+          case 1:
+            if (bitread)
+              set_bit(PORTD, PD5);
+            else
+              clr_bit(PORTD, PD5);
+          case 2:
+            if (bitread)
+              set_bit(PORTD, PD6);
+            else
+              clr_bit(PORTD, PD6);
+          case 3:
+            if (bitread)
+              set_bit(PORTD, PD7);
+            else
+              clr_bit(PORTD, PD7);
+          case 4:
+            if (bitread)
+              set_bit(PORTB, PB0);
+            else
+              clr_bit(PORTB, PB0);
+          case 5:
+            if (bitread)
+              set_bit(PORTB, PB1);
+            else
+              clr_bit(PORTB, PB1);
+        }
+
+    }
+    _delay_ms(1000);
+    set_bit(PORTD,CONTROL_PIN);
+    _delay_ms(1000);
+    clr_bit(PORTD,CONTROL_PIN);
+  }
   /* Desconecta e deslisga a FPGA */
   else if (received == 88) {
     is_connected = false;
@@ -175,52 +219,7 @@ int main() {
       clr_bit(PORTD, POWER_PIN);
     }
   }
-
-  /* Lê o byte recebido como bits e set nos pinos de saída */ 
-  else if (received >= 0 && received < 22) {
-    for( int j = 0; j < 6; j++ ) {
-			bitread = (( received >> j ) & 1 ? 1 : 0);
-				switch(j)
-				{
-					case 0:
-						if (bitread)
-							set_bit(PORTD, PD4);
-						else
-							clr_bit(PORTD, PD4);
-					case 1:
-						if (bitread)
-							set_bit(PORTD, PD5);
-						else
-							clr_bit(PORTD, PD5);
-					case 2:
-						if (bitread)
-							set_bit(PORTD, PD6);
-						else
-							clr_bit(PORTD, PD6);
-					case 3:
-						if (bitread)
-							set_bit(PORTD, PD7);
-						else
-							clr_bit(PORTD, PD7);
-					case 4:
-						if (bitread)
-							set_bit(PORTB, PB0);
-						else
-							clr_bit(PORTB, PB0);
-					case 5:
-						if (bitread)
-							set_bit(PORTB, PB1);
-						else
-							clr_bit(PORTB, PB1);
-				}
-
-	}
-	_delay_ms(1000);
-	set_bit(PORTD,CONTROL_PIN);
-	_delay_ms(1000);
-	clr_bit(PORTD,CONTROL_PIN);
-}
-
+	  
   /* Reinicia a FPGA */ 
   else if (received == 127){
     set_bit(PORTD,PD4);
