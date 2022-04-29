@@ -165,7 +165,7 @@ int main() {
     }
   }
 		
-	/* Lê o byte recebido como bits e set nos pinos de saída */ 
+/* Lê o byte recebido como bits e set nos pinos de saída */ 
   else if (received >= 0 && received < 22) {
     for (int j = 0; j < 6; j++ ) {
       bitread = (( received >> j ) & 1 ? 1 : 0);
