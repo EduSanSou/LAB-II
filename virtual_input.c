@@ -234,7 +234,7 @@ int main() {
     clr_bit(PORTD,CONTROL_PIN);
   }
   
-  /* Desliga a FPGA */ 
+  /* Liga e Desliga a FPGA */ 
   else if(received == 90) {
     if (is_power_blocked)
       UART_Transmit(92);
