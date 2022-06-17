@@ -4,6 +4,8 @@ import tkinter as tk
 #inclusao do modulo serial
 import serial
 
+import time
+
 #definicao de funcoes
 def power_on_off():
     
@@ -71,7 +73,7 @@ def decrease_degree_e():
 
 def send_string():
     mov_string = string_ent.get()
-    ser.write(chr(mov_string).encode())
+    ser.write(str(mov_string).encode())
  
 #instanciacao da janela
 window = tk.Tk()
@@ -175,7 +177,12 @@ e_minus_btn.grid(row=9,column=3,sticky="nsew",padx=5,pady=5)
 i=3
 while i>0: #Loop para a conexão com o Arduino
     try:  #Tenta se conectar, se conseguir, o loop se encerra
-        ser = serial.Serial('/dev/ttyUSB0', 9600)    
+
+        #Conexão via Linux
+        #ser = serial.Serial('/dev/ttyUSB0', 115200)
+
+        #Conexão via Windows
+        ser = serial.Serial(port='COM3', baudrate=115200, timeout=.1)
         break
     except:
         pass
