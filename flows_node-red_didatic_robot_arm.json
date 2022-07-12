@@ -1,0 +1,146 @@
+[
+    {
+        "id": "5b1fb866cb1147e9",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c8d274b98c3666f7",
+        "type": "debug",
+        "z": "5b1fb866cb1147e9",
+        "name": "debug2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "c146834fc42c7a6b",
+        "type": "serial request",
+        "z": "5b1fb866cb1147e9",
+        "name": "",
+        "serial": "24cbc0f9eb448d0d",
+        "x": 510,
+        "y": 340,
+        "wires": [
+            [
+                "c8d274b98c3666f7",
+                "c4fad7d3c1a7b899"
+            ]
+        ]
+    },
+    {
+        "id": "c775f55a34066418",
+        "type": "debug",
+        "z": "5b1fb866cb1147e9",
+        "name": "debug3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "c4fad7d3c1a7b899",
+        "type": "serial request",
+        "z": "5b1fb866cb1147e9",
+        "name": "",
+        "serial": "3ccffbcba8e92146",
+        "x": 690,
+        "y": 340,
+        "wires": [
+            [
+                "c775f55a34066418"
+            ]
+        ]
+    },
+    {
+        "id": "b9d8b71339c95dd3",
+        "type": "pythonshell in",
+        "z": "5b1fb866cb1147e9",
+        "name": "",
+        "pyfile": "\\Users\\bruno\\Documents\\LAB_II\\LAB-II-main\\GUI_IHM.py",
+        "virtualenv": "",
+        "continuous": true,
+        "stdInData": false,
+        "x": 260,
+        "y": 400,
+        "wires": [
+            [
+                "c146834fc42c7a6b",
+                "62725839e2425d2b"
+            ]
+        ]
+    },
+    {
+        "id": "62725839e2425d2b",
+        "type": "debug",
+        "z": "5b1fb866cb1147e9",
+        "name": "debug1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "24cbc0f9eb448d0d",
+        "type": "serial-port",
+        "serialport": "COM4",
+        "serialbaud": "115200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "3ccffbcba8e92146",
+        "type": "serial-port",
+        "serialport": "COM3",
+        "serialbaud": "115200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "1000"
+    }
+]
